@@ -35,14 +35,14 @@ export default class World {
     }
   
     load() {
-      var existingIslands = document.querySelectorAll(".island");
+      let existingIslands = document.querySelectorAll(".island");
       existingIslands.forEach(existingIsland => {
         existingIsland.remove();
       });
       // load islands from localstorage into array
       // loop over the array and addIslands()
-      var storedArrayString = localStorage.getItem("islands");
-      var storedislands = JSON.parse(storedArrayString);
+      let storedArrayString = localStorage.getItem("islands");
+      let storedislands = JSON.parse(storedArrayString);
       // console.log(storedArray);
       storedislands.forEach(storedisland => {
         let div = document.createElement("div");
