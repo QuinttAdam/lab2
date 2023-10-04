@@ -1,4 +1,5 @@
 import Island from "./Island.js";
+const island= new Island();
 export default class World {
     constructor() {
       this.islands = []; // a good place to keep track of your islands
@@ -11,7 +12,7 @@ export default class World {
       document.querySelector("#btnAddIsland")
         .addEventListener("click", (e) => {
           e.preventDefault();
-          this.addIsland();
+          this.addIsland(island);
         });
     }
   
@@ -36,20 +37,20 @@ export default class World {
   
     addIsland(island) {
       // add the islands to the DOM
-      // let circle= new Island();
-      // circle.getRandomColor();
-      // circle.getRandomName()
-      this.getCoordinates();
-      this.moveIsland();
+      
+      let div = document.createElement("div");
+      div.classList.add("island");
+      let color= island.getRandomColor();
+      let name= island.getRandomName();
+      div.style.backgroundColor = color;
+      div.innerHTML = name; 
+      //append to body
+      document.body.appendChild(div);
+      this.moveIsland(div);
     }
   
-    moveIsland(island) {
+    moveIsland(div) {
       // this might be a good point to animate the islands with JS Animations API
-      let div = document.createElement("div");
-        div.classList.add("island");
-        //append to body
-        document.body.appendChild(div);
-        
         let coords = this.getCoordinates();
         //use js web animations api to animate the island to coords
         div.animate([
