@@ -3,6 +3,7 @@ const island= new Island();
 export default class World {
     constructor() {
       this.islands = []; // a good place to keep track of your islands
+      console.log(this.islands);
       this.hookEvents(); // let's kick things of by hooking up events
     }
   
@@ -14,16 +15,46 @@ export default class World {
           e.preventDefault();
           this.addIsland(island);
         });
+      document.querySelector("#btnSave")
+        .addEventListener("click", (e) => {
+          e.preventDefault();
+          this.save();
+      });
+      document.querySelector("#btnLoad")
+        .addEventListener("click", (e) => {
+          e.preventDefault();
+          this.load();
+      });
     }
   
     save() {
       // save array islands to localstorage as string
       // loop over all this.islands and save the names
+      localStorage.setItem("islands", JSON.stringify(this.islands));
+      console.log(localStorage.getItem("islands"));
     }
   
     load() {
+      var existingIslands = document.querySelectorAll(".island");
+      existingIslands.forEach(existingIsland => {
+        existingIsland.remove();
+      });
       // load islands from localstorage into array
       // loop over the array and addIslands()
+      var storedArrayString = localStorage.getItem("islands");
+      var storedislands = JSON.parse(storedArrayString);
+      // console.log(storedArray);
+      storedislands.forEach(storedisland => {
+        let div = document.createElement("div");
+        div.classList.add("island");
+        div.style.backgroundColor = storedisland.color;
+        div.innerHTML = storedisland.name; 
+        //append to body
+        document.body.appendChild(div);
+        this.moveIsland(div);        
+      });
+
+      
     }
   
     getCoordinates() {
@@ -47,6 +78,8 @@ export default class World {
       //append to body
       document.body.appendChild(div);
       this.moveIsland(div);
+      //add to array
+      this.islands.push({name, color});
     }
   
     moveIsland(div) {
